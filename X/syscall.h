@@ -20,7 +20,12 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
-#define SYS_myfunction 22
-#define SYS_mygetpid 23
-#define SYS_getgpid 24
-#define SYS_yield 25
+#define SYS_ticketlockInit 22
+#define SYS_ticketlockTest 23
+#define SYS_rwinit 24
+#define SYS_rwtest 25
+#define SYS_createThread 26
+#define SYS_getThreadID 27
+#define SYS_exitThread 28
+#define SYS_joinThread 29
+

@@ -9,6 +9,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct ticketlock;
 
 // bio.c
 void            binit(void);
@@ -121,6 +122,19 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 
+int             ticketlockInit(void);
+int             ticketlockTest(void);
+int             rwinit(void);
+int             rwtest(uint);
+
+int             createThread(void(*)(), void*);
+void            exitThread(void);
+int             joinThread(int);
+
+struct thread*  mythread();
+void            killSelf(void);
+void            killSiblings(void);
+
 // swtch.S
 void            swtch(struct context**, struct context*);
 
@@ -132,6 +146,11 @@ void            initlock(struct spinlock*, char*);
 void            release(struct spinlock*);
 void            pushcli(void);
 void            popcli(void);
+
+// ticketlock.c
+void            acquireTicketlock(struct ticketlock*);
+void            initTicketlock(struct ticketlock*, char*);
+void            releaseTicketlock(struct ticketlock*);
 
 // sleeplock.c
 void            acquiresleep(struct sleeplock*);
@@ -185,11 +204,6 @@ void            switchuvm(struct proc*);
 void            switchkvm(void);
 int             copyout(pde_t*, uint, void*, uint);
 void            clearpteu(pde_t *pgdir, char *uva);
-
-int		myfunction(char*);
-int		mygetpid(void);
-int		getgpid(void);
-//int		yields(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

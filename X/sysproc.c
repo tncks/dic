@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
+
 int
 sys_fork(void)
 {
@@ -88,4 +89,75 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_ticketlockInit(void)
+{
+  return ticketlockInit();
+}
+
+int
+sys_ticketlockTest(void)
+{
+  return ticketlockTest();
+}
+
+int
+sys_rwinit(void)
+{
+  return rwinit();
+}
+
+int
+sys_rwtest(void)
+{
+  uint pattern;
+  argptr(0, (void *)&pattern, sizeof(pattern));
+  if(pattern != 0 && pattern != 1)
+    return -1;
+  return rwtest(pattern);
+}
+
+int
+sys_createThread(void)
+{
+  void (*func)();
+  void* stack;
+
+  if(argptr(0, (void*)&func, sizeof(void*)) < 0)
+    return -1;
+  if(argptr(3, (void*)&stack, sizeof(void*)) < 0)
+    return -1;
+
+
+  return createThread(func, stack);
+
+}
+
+int
+sys_getThreadID(void)
+{
+  if (mythread() && myproc())
+    return mythread()->tid;
+
+  return -1;
+}
+
+void
+sys_exitThread(void)
+{
+  exitThread();
+
+}
+
+int 
+sys_joinThread(void)
+{
+  int tid;
+  if(argint(0, &tid) < 0)
+    return -1;
+
+  return joinThread(tid);
+
 }

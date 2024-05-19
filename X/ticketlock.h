@@ -1,9 +1,7 @@
-#ifndef XV6_PUBLIC_SPINLOCK_H
-#define XV6_PUBLIC_SPINLOCK_H
-
-// Mutual exclusion lock.
-struct spinlock {
-  uint locked;       // Is the lock held?
+// Mutual exclusion ticket lock.
+struct ticketlock {
+  int turn;        // which ticket is currently processing?
+  int ticket;        // ticket value
 
   // For debugging:
   char *name;        // Name of lock.
@@ -12,4 +10,3 @@ struct spinlock {
                      // that locked the lock.
 };
 
-#endif

@@ -23,10 +23,16 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int myfunction(char*);
-int mygetpid(void);
-int getgpid(void);
-int yield(void);
+
+int ticketlockInit(void);
+int ticketlockTest(void);
+int rwinit(void);
+int rwtest(uint);
+int createThread(void (*function)(), void* stack);
+int getThreadID(void);
+void exitThread(void);
+int joinThread(int threadID);
+
 
 // ulib.c
 int stat(const char*, struct stat*);
